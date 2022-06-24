@@ -43,20 +43,25 @@
 
     <!-- form to input high scores -->
         <div class="inputScore">
-            <form action="#" method="POST">
-                <!--Input of any type and textareas goes in here-->
+            <h1 class="heading">All done!</h1>
+            <p>Your score is <span class="score">69!</span></p>
+            <form name="form-highscores">
+                <div class="form-input">
+                    <label>Enter Initials</label>
+                    <input name="initials" />
+                    <button type="submit">Submit</button>
+                </div>
             </form>
         </div>
 
         <!-- view high scores -->
-        <div class="container" id="highScores">
-            <h1 class="h1 mb-4 font-weigth-bold">Highscores</h1>
-            <div class="container h4 mb-4" id="scores">
-            </div>
-            <button type="button" class="btn btn-primary btn-lg" id="goBack">Go Back</button>
-            <button type="button" class="btn btn-primary btn-lg" id="clearScores">Clear Scores</button>
+        <div class="scoringsheet">
+            <h1 class="scores">Highscores</h1>
+            <button type="button" id="goBack">Go Back</button>
+            <button type="button" id="clearScores">Clear Scores</button>
         </div>
-
+        
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script> src="./assets/js/script.js" </script>
 </body>
     
