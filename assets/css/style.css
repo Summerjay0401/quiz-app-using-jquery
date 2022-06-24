@@ -1,0 +1,46 @@
+:root {
+    --color-primary: blueviolet;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.highscore {
+    display: flex;
+    align-items: flex-start;
+    color: var(--color-primary);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    text-decoration: none;
+}
+
+.time {
+    display: flex;
+    align-items: flex-end;
+    color: var(--color-primary);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.intro .title {
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    color: black;
+}
+
+.intro p {
+    text-align: center;
+}
