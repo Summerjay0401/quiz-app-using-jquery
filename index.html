@@ -7,7 +7,9 @@
     <title>Coding Quiz App</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
+    <!-- Welcome Page of Quiz App -->
     <div class="header">
         <a href="#" class="highscore">View Highscores</a>
         <h1 class="time">Time: <span class="count-down"></span></h1>
@@ -19,7 +21,43 @@
         <br>Keep in mind that incorrect answers will be penalized with your scoretime by ten seconds.</p>
         <button class="start">Start Quiz</button>
     </div>
-    <script> src="./assets/js/script.js" </script>
+
+    <!-- End of Welcome Page -->
+
+    <!-- Start of Quiz -->
+    <div class="quizpage">
+        <h1 class="questions">What is HTML?</h1>
+        <div class="answers">
+            <!-- Multiple Choice Selection -->
+            <div class="multiplechoice"> 
+                <ol>
+                <li><button class="choice1">Hyper Link Markup Text</button></li>
+                <li><button class="choice2"></button></li>
+                <li><button class="choice3"></button></li>
+                <li><button class="choice4"></button></li>
+            </ol>
+            </div>
+        </div>
+    </div>
+      <!-- End of Quiz -->
+
+    <!-- form to input high scores -->
+        <div class="inputScore">
+            <form action="#" method="POST">
+                <!--Input of any type and textareas goes in here-->
+            </form>
+        </div>
+
+        <!-- view high scores -->
+        <div class="container" id="highScores">
+            <h1 class="h1 mb-4 font-weigth-bold">Highscores</h1>
+            <div class="container h4 mb-4" id="scores">
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" id="goBack">Go Back</button>
+            <button type="button" class="btn btn-primary btn-lg" id="clearScores">Clear Scores</button>
+        </div>
+
+<script> src="./assets/js/script.js" </script>
 </body>
     
 </html>
