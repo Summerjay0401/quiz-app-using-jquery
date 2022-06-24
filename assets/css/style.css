@@ -1,5 +1,6 @@
 :root {
     --color-primary: blueviolet;
+    --bold-font-weight: bold;
 }
 
 .header {
@@ -16,6 +17,7 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
     text-decoration: none;
+    font-weight: var(--bold-font-weight);
 }
 
 .time {
@@ -24,6 +26,7 @@
     color: var(--color-primary);
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
+    font-weight: var(--bold-font-weight);
 }
 
 .intro {
@@ -43,4 +46,26 @@
 
 .intro p {
     text-align: center;
+}
+
+.start {
+    background-color: var(--color-primary);
+    font-weight: bold;
+    font-size: medium;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 1011px) {
+    
+    .highscore {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .time {
+        display: flex;
+        align-items: flex-end;
+    }
 }
