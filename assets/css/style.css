@@ -3,6 +3,38 @@
     --bold-font-weight: bold;
 }
 
+ol {
+    list-style: none;
+    counter-reset: olCounter;
+}
+  
+li {
+    counter-increment: olCounter;
+}
+
+li button {
+    
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
+
+li button::before {
+    content: counter(olCounter) ". ";
+}
+
+button {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+}
+
+/* header */
+
 .header {
     display: flex;
     flex-direction: row;
@@ -29,6 +61,8 @@
     font-weight: var(--bold-font-weight);
 }
 
+/* intro */
+
 .intro {
     display: flex;
     flex-direction: column;
@@ -48,7 +82,7 @@
     text-align: center;
 }
 
-.button-start-quiz {
+.intro .button-start-quiz {
     background-color: var(--color-primary);
     font-weight: bold;
     font-size: medium;
@@ -57,12 +91,21 @@
     border-radius: 5px;
 }
 
+/* quiz page */
+
 .quiz-page {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
+}
+
+.quiz-page .questions {
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    justify-content: center;
 }
 
 .quiz-page .choices {
@@ -73,34 +116,22 @@
     border-bottom: 1px solid gray;
 }
   
-ol {
-    list-style: none;
-    counter-reset: olCounter;
-}
-  
-li {
-    counter-increment: olCounter;
-}
-
-li button {
-    
-    background-color: var(--color-primary);
-    color: white;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-}
-
-li button::before {
-    content: counter(olCounter) ". ";
-}
+/* quiz result */
 
 .quiz-result {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+.quiz-result .heading {
+    font-size: larger;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* highscores list */
 
 .highscore-list {
     display: flex;
