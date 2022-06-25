@@ -1,6 +1,6 @@
 const header = $("#header");
 const viewHighscoresLink = header.find(".view-highscores-link");
-const countDown = header.find(".time");
+const countDown = header.find(".count-down");
 
 const intro = $("#intro");
 const buttonStartQuiz = intro.find(".button-start-quiz");
@@ -12,7 +12,22 @@ const quizResult = $(".quiz-result");
 const highscoresList = $(".highscore-list");
 
 var questionIndex = 0;
-var currentScore = 0;
+var currentCountDown = 0;
+var interval = undefined;
+
+function countDownTimer(){
+    currentCountDown = 75;
+    interval = setInterval(function() {
+        currentCountDown--;
+        countDown.text(currentCountDown)
+        // Display 'counter' wherever you want to display it.
+        if (currentCountDown===0) {
+            // Display a login box
+            clearInterval(interval);
+            renderQuizResult();
+        }
+    }, 1000);
+}
 
 function hideElement(el) {
     var $el = $(el);
@@ -25,6 +40,7 @@ function showElement(el) {
 }
 
 function renderQuestion(question){
+    clearQuestion();
     quizPage.find(".questions").text(question.title);
     
     const choices = quizPage.find(".choices");
@@ -32,13 +48,13 @@ function renderQuestion(question){
         choices.append("<li><button>" + choice + "</button></li>");
     });
 
-    choices.find("button").on("click", function (event) {
+    quizPage.find(".choices").find("button").on("click", function (event) {
         var $button = $(event.target);
         if($button.text() === question.answer){
-            currentScore++;
-            quizPage.find(".result").text("correct!")
+            quizPage.find(".result").text("correct!");
         }else{
-            quizPage.find(".result").text("wrong!")
+            quizPage.find(".result").text("wrong!");
+            currentCountDown -= 10;
         }
 
         choices.find("button").prop("disabled",true);
@@ -55,7 +71,6 @@ function nextQuestion() {
 
     if(questions.length > questionIndex){
         const question = questions[questionIndex];
-        clearQuestion();
         renderQuestion(question);
     }else{
         renderQuizResult();
@@ -70,20 +85,9 @@ function clearQuestion(){
 }
 
 function renderQuizResult(){
-    quizResult.find(".score").text(currentScore);
-    quizResult.find("input").text("");
-
-    quizResult.find("form[name='form-highscores']").submit(function(event){
-        event.preventDefault();
-        var $form = $(event.target);
-        var info = $form.serializeArray();
-        var initials = info[0].value;
-        if(initials){
-            saveScore(initials, currentScore);
-            renderHighScores();
-        }
-    })
-
+    quizResult.find(".score").text(currentCountDown);
+    quizResult.find("input").val("");
+    clearInterval(interval);
     hideElement(quizPage);
     showElement(quizResult);
 }
@@ -92,25 +96,46 @@ function renderHighScores() {
     hideElement(quizResult);
     showElement(highscoresList);
 
+    highscoresList.find(".results").empty();
     var scores = JSON.parse(localStorage.getItem("scores"));
-    console.log(scores);
-    scores.forEach(function(score){
-        highscoresList.find(".results").append(`<li>${score.initials} - ${score.score}</li>`);
-    });
+    if(scores)
+        scores.forEach(function(score){
+            highscoresList.find(".results").append(`<li>${score.initials} - ${score.score}</li>`);
+        });
     
+    highscoresList.find("#goBack").on("click", function(event) {
+        event.preventDefault();
+        goBack();
+    });
 
+    highscoresList.find("#clearScores").on("click", function(event) {
+        event.preventDefault();
+        clearScores();
+    });
+
+}
+
+function goBack() {
+    init();
+    showElement(intro);
 }
 
 function saveScore(initials, score) {
     // to local storage
     var lsScores = localStorage.getItem("scores");
     var scores = lsScores ? JSON.parse(lsScores) : [];
-    localStorage.setItem("scores", JSON.stringify([...scores, {initials, score}]));
+    
+    scores.push({initials, score});
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+function clearScores() {
+    localStorage.removeItem("scores");
+    highscoresList.find(".results").empty();
 }
 
 function reset() {
     questionIndex = 0;
-    currentScore = 0;
 }
 
 // function init is called upon page load
@@ -118,12 +143,14 @@ function init(){
     hideElement(quizPage)
     hideElement(quizResult)
     hideElement(highscoresList)
+    countDown.text(0);
 }
 
 // Events
 viewHighscoresLink.on("click", () => {
-    console.log("clicked")
-    console.log(questions)
+    init();
+    hideElement(intro);
+    renderHighScores();
 })
 
 buttonStartQuiz.on("click", () => {
@@ -134,6 +161,18 @@ buttonStartQuiz.on("click", () => {
     
     renderQuestion(question);
     showElement(quizPage);
+    countDownTimer();
+})
+
+quizResult.find("form[name='form-highscores']").submit(function(event){
+    event.preventDefault();
+    var $form = $(event.target);
+    var info = $form.serializeArray();
+    var initials = info[0].value;
+    if(initials){
+        saveScore(initials, currentCountDown);
+        renderHighScores();
+    }
 })
 
 init();
