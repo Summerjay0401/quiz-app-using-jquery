@@ -15,20 +15,6 @@ var questionIndex = 0;
 var currentCountDown = 0;
 var interval = undefined;
 
-function countDownTimer(){
-    currentCountDown = 75;
-    interval = setInterval(function() {
-        currentCountDown--;
-        countDown.text(currentCountDown)
-        // Display 'counter' wherever you want to display it.
-        if (currentCountDown===0) {
-            // Display a login box
-            clearInterval(interval);
-            renderQuizResult();
-        }
-    }, 1000);
-}
-
 function hideElement(el) {
     var $el = $(el);
     $el.hide();
@@ -55,13 +41,17 @@ function renderQuestion(question){
         }else{
             quizPage.find(".result").text("wrong!");
             currentCountDown -= 10;
+            if(currentCountDown < 1){
+                countDown.text(0)
+                renderQuizResult();
+            }
         }
 
         choices.find("button").prop("disabled",true);
 
         setTimeout(function(){
             nextQuestion();
-        }, 1000)
+        }, 500)
     })
 
     questionIndex++; // increment questionIndex
@@ -85,7 +75,7 @@ function clearQuestion(){
 }
 
 function renderQuizResult(){
-    quizResult.find(".score").text(currentCountDown);
+    quizResult.find(".score").text(currentCountDown > 0 ? currentCountDown : 0);
     quizResult.find("input").val("");
     clearInterval(interval);
     hideElement(quizPage);
@@ -138,6 +128,19 @@ function reset() {
     questionIndex = 0;
 }
 
+function countDownTimer(){
+    currentCountDown = 75;
+    interval = setInterval(function() {
+        currentCountDown--;
+        countDown.text(currentCountDown)
+        // Display 'counter' wherever you want to display it.
+        if (currentCountDown===0) {
+            clearInterval(interval);
+            renderQuizResult();
+        }
+    }, 1000);
+}
+
 // function init is called upon page load
 function init(){
     hideElement(quizPage)
@@ -170,7 +173,7 @@ quizResult.find("form[name='form-highscores']").submit(function(event){
     var info = $form.serializeArray();
     var initials = info[0].value;
     if(initials){
-        saveScore(initials, currentCountDown);
+        saveScore(initials, currentCountDown > 0 ? currentCountDown : 0);
         renderHighScores();
     }
 })
