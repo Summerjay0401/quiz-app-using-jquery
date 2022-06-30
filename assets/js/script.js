@@ -13,17 +13,9 @@ const highscoresList = $(".highscore-list");
 
 var questionIndex = 0;
 var currentCountDown = 0;
+var currentScore = 0;
+var finalScore = 0;
 var interval = undefined;
-
-function hideElement(el) {
-    var $el = $(el);
-    $el.hide();
-}
-
-function showElement(el) {
-    var $el = $(el);
-    $el.show();
-}
 
 function renderQuestion(question){
     clearQuestion();
@@ -38,10 +30,11 @@ function renderQuestion(question){
         var $button = $(event.target);
         if($button.text() === question.answer){
             quizPage.find(".result").text("correct!");
+            currentScore++;
         }else{
             quizPage.find(".result").text("wrong!");
             currentCountDown -= 10;
-            if(currentCountDown < 1){
+            if(currentCountDown < 1 || (questionIndex === questions.length && currentScore === 0)){
                 countDown.text(0)
                 renderQuizResult();
             }
@@ -75,7 +68,12 @@ function clearQuestion(){
 }
 
 function renderQuizResult(){
-    quizResult.find(".score").text(currentCountDown > 0 ? currentCountDown : 0);
+
+    finalScore = currentCountDown > 0 ? currentCountDown : 0;
+    if((questionIndex === questions.length && currentScore === 0))
+        finalScore = 0;
+
+    quizResult.find(".score").text(finalScore);
     quizResult.find("input").val("");
     clearInterval(interval);
     hideElement(quizPage);
@@ -126,6 +124,8 @@ function clearScores() {
 
 function reset() {
     questionIndex = 0;
+    currentScore = 0;
+    finalScore = 0;
 }
 
 function countDownTimer(){
@@ -139,6 +139,16 @@ function countDownTimer(){
             renderQuizResult();
         }
     }, 1000);
+}
+
+function hideElement(htmlElement) {
+    // var $el = $(htmlElement);
+    htmlElement.hide();
+}
+
+function showElement(htmlElement) {
+    // var $el = $(htmlElement);
+    htmlElement.show();
 }
 
 // function init is called upon page load
@@ -173,7 +183,7 @@ quizResult.find("form[name='form-highscores']").submit(function(event){
     var info = $form.serializeArray();
     var initials = info[0].value;
     if(initials){
-        saveScore(initials, currentCountDown > 0 ? currentCountDown : 0);
+        saveScore(initials, finalScore);
         renderHighScores();
     }
 })
